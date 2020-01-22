@@ -1,6 +1,5 @@
 package com.cex0.mobiai.core.view;
 
-import com.cex0.mobiai.exception.ResponseCodeEnum;
 import com.cex0.mobiai.util.ThreadParameterUtil;
 
 import java.io.Serializable;

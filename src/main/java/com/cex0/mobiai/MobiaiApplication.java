@@ -18,6 +18,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class MobiaiApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
+        System.setProperty("spring.config.additional-location", "file:${user.home}/.mobiai/,file:${user.home}/mobiai-dev/");
+
         SpringApplication.run(MobiaiApplication.class, args);
     }
 

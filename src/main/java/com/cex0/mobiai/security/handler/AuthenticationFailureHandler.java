@@ -20,9 +20,9 @@ public interface AuthenticationFailureHandler {
      * 当用户身份验证失败时调用。
      * @param request
      * @param response
-     * @param excepiton
+     * @param exception
      * @throws IOException
      * @throws ServletException
      */
-    void onFailure(HttpServletRequest request, HttpServletResponse response, MobiaiException excepiton) throws IOException, ServletException;
+    void onFailure(HttpServletRequest request, HttpServletResponse response, MobiaiException exception) throws IOException, ServletException;
 }

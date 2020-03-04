@@ -86,7 +86,7 @@ public class MobiaiConst {
     public final static String MOBIAI_ADMIN_RELEASES_LATEST = "https://api.github.com/repos/halo-dev/halo-admin/releases/latest";
 
     /**
-     * Halo admin version regex.
+     * Mobiai admin version regex.
      */
     public final static String MOBIAI_ADMIN_VERSION_REGEX = "mobiai-admin-\\d+\\.\\d+(\\.\\d+)?(-\\S*)?\\.zip";
 

@@ -22,7 +22,6 @@ import java.util.Map;
 @RequestMapping("/api/admin/options")
 public class OptionController {
 
-    // 加final 单例
     private final OptionService optionService;
 
     public OptionController(OptionService optionService) {

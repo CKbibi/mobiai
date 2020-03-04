@@ -1,6 +1,5 @@
 package com.cex0.mobiai.exception;
 
-import io.undertow.util.BadRequestException;
 
 public class MissingPropertyException extends BadRequestException {
 

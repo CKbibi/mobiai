@@ -57,7 +57,7 @@ public interface UserService extends CrudService<User, Integer> {
      * @throws NotFoundException 当用户名不存在时引发
      */
     @NonNull
-    User getUsernameOfNonNull(@NonNull String username);
+    User getByUsernameOfNonNull(@NonNull String username);
 
 
     /**
@@ -67,7 +67,7 @@ public interface UserService extends CrudService<User, Integer> {
      * @return      Optional的User对象
      */
     @NonNull
-    User getByEmail(@NonNull String email);
+    Optional<User> getByEmail(@NonNull String email);
 
 
     /**

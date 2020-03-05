@@ -1,5 +1,6 @@
 package com.cex0.mobiai.util;
 
+import com.cex0.mobiai.exception.BeanUtilsException;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.BeansException;
@@ -87,7 +88,7 @@ public class BeanUtils {
         try {
             org.springframework.beans.BeanUtils.copyProperties(source, target, getNullPropertyNames(source));
         } catch (BeansException e) {
-            // TODO
+            throw new BeanUtilsException("Failed to copy properties", e);
         }
     }
 

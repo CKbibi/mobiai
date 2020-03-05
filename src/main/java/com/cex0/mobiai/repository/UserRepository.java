@@ -9,7 +9,7 @@ import java.util.Optional;
 /**
  * 用户储存库
  */
-public interface UserRepository extends BaseRepository<User, Long> {
+public interface UserRepository extends BaseRepository<User, Integer> {
 
     /**
      * 通过用户名获取用户信息

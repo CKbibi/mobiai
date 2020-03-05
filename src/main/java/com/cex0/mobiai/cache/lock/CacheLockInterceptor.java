@@ -100,8 +100,8 @@ public class CacheLockInterceptor {
             log.debug("Parameter annotation[{}] = {}", i, parameterAnnotations[i]);
 
             for (int j = 0; j < parameterAnnotations[i].length; j++) {
-                Annotation annotation = parameterAnnotations[i][i];
-                log.debug("Parameter annotation[{}][{}]", i, j, annotation);
+                Annotation annotation = parameterAnnotations[i][j];
+                log.debug("Parameter annotation[{}][{}]: {}", i, j, annotation);
                 if (annotation instanceof CacheParam) {
                     // 获取当前参数
                     Object arg = joinPoint.getArgs()[i];

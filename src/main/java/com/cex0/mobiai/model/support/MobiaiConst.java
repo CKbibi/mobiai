@@ -81,9 +81,9 @@ public class MobiaiConst {
     public static String USER_SESSION_KEY = "user_session";
 
     /**
-     * Github Api url for halo-admin release.
+     * Github Api url for mobiai-admin release.
      */
-    public final static String MOBIAI_ADMIN_RELEASES_LATEST = "https://api.github.com/repos/halo-dev/halo-admin/releases/latest";
+    public final static String MOBIAI_ADMIN_RELEASES_LATEST = "https://api.github.com/repos/mobiai-dev/mobiai-admin/releases/latest";
 
     /**
      * Mobiai admin version regex.

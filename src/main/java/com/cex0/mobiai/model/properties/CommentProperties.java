@@ -22,7 +22,7 @@ public enum CommentProperties implements PropertyEnum{
 
     CONTENT_PLACEHOLDER("comment_content_placeholder", String.class, ""),
 
-    INTERNAL_PLUGIN_JS("comment_internal_plugin_js", String.class, "//cdn.jsdelivr.net/gh/halo-dev/halo-comment@latest/dist/halo-comment.min.js");
+    INTERNAL_PLUGIN_JS("comment_internal_plugin_js", String.class, "//cdn.jsdelivr.net/gh/mobiai-dev/mobiai-comment@latest/dist/mobiai-comment.min.js");
 
     private final String value;
 

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
- * @Auther: wodenvyoujiaoshaxiong
+ * @author wodenvyoujiaoshaxiong
  * @Date: 2019/12/26 01:10
  * @Description:
  */

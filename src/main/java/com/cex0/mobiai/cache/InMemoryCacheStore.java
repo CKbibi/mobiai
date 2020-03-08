@@ -12,7 +12,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * @Auther: wodenvyoujiaoshaxiong
+ * @author wodenvyoujiaoshaxiong
  * @Date: 2020/3/4 21:20
  * @Description: 内存缓存存储(使用ConcurentHashMap存储)。
  */

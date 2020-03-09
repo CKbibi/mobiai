@@ -15,6 +15,12 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import java.util.Optional;
 
+/**
+ * 身份验证参数解析程序。
+ *
+ * @author wodenvyoujiaoshaxiong
+ * @date 2020/03/10
+ */
 @Slf4j
 public class AuthenticationArgumentResolver implements HandlerMethodArgumentResolver {
 

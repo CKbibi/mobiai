@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @Auther: wodenvyoujiaoshaxiong
+ * @author wodenvyoujiaoshaxiong
  * @Date: 2020/2/28 21:11
  * @Description:
  */
@@ -37,6 +37,7 @@ public class DefaultAuthenticationFailureHandler implements AuthenticationFailur
         log.error("Authentication failure", exception);
 
         BaseResponse<Object> errorDetail = new BaseResponse<>();
+
         errorDetail.setStatus(exception.getStatus().value());
         errorDetail.setDevMessage(exception.getMessage());
         errorDetail.setData(exception.getErrorData());

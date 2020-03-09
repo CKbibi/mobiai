@@ -15,13 +15,22 @@ public class SecurityContextHolder {
     private SecurityContextHolder() {}
 
 
+    /**
+     * 获取上下文
+     *
+     * @return
+     */
     @NonNull
     public static SecurityContext getContext() {
+        // 从ThreadLocal中获取
         SecurityContext context = CONTEXT_HOLDER.get();
         if (context == null) {
+            // 如果现在没有上下文可用，则创建一个空上下文
             context = createEmptyContext();
+            // 设置ThreadLocal
             CONTEXT_HOLDER.set(context);
         }
+
         return context;
     }
 

@@ -27,6 +27,8 @@
         <jgit.version>5.3.0.201903130848-r</jgit.version>
         <swagger.version>2.9.2</swagger.version>
         <qiniusdk.version>7.2.18</qiniusdk.version>
+        <levelDB.version>0.12</levelDB.version>
+        <httpClient.version>4.5.7</httpClient.version>
     </properties>
 
     <dependencies>
@@ -112,6 +114,16 @@
             <groupId>com.qiniu</groupId>
             <artifactId>qiniu-java-sdk</artifactId>
             <version>${qiniusdk.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.iq80.leveldb</groupId>
+            <artifactId>leveldb</artifactId>
+            <version>${levelDB.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${httpClient.version}</version>
         </dependency>
 
 

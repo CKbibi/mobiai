@@ -3,7 +3,7 @@ package com.cex0.mobiai.model.properties;
 import static com.cex0.mobiai.model.support.MobiaiConst.DEFAULT_THEME_ID;
 
 /**
- * @Auther: wodenvyoujiaoshaxiong
+ * @author wodenvyoujiaoshaxiong
  * @Date: 2020/2/28 22:41
  * @Description: 初始化参数
  */

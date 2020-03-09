@@ -16,9 +16,7 @@ public interface AdminService {
 
     int REFRESH_TOKEN_EXPIRED_DAYS = 30;
 
-    String ACCESS_TOKEN_CACHE_PREFIX = "mobiai.admin.access_token";
-
-    String REFRESH_TOKEN_CACHE_PREFIX = "mobiai.admin.refresh_token";
+    String APPLICATION_CONFIG_NAME = "application.yaml";
 
     String LOGS_PATH = "logs/spring.log";
 

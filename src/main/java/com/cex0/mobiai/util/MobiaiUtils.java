@@ -17,7 +17,73 @@ import static com.cex0.mobiai.model.support.MobiaiConst.FILE_SEPARATOR;
  */
 public class MobiaiUtils {
 
+    private static final String URL_SEPARATOR = "/";
     private static final String RE_HTML_MARK = "(<[^<]*?>)|(<[\\s]*?/[^<]*?>)|(<[^<]*?/[\\s]*?>)";
+
+
+    @NonNull
+    public static String ensureBoth(@NonNull String string, @NonNull String bothfix) {
+        return ensureBoth(string, bothfix, bothfix);
+    }
+
+    @NonNull
+    public static String ensureBoth(@NonNull String string, @NonNull String prefix, @NonNull String suffix) {
+        return ensureSuffix(ensurePrefix(string, prefix), suffix);
+    }
+
+
+    /**
+     * 确保字符串包含前缀。
+     * @param string
+     * @param prefix
+     * @return 字符串包含指定的前缀
+     */
+    @NonNull
+    public static String ensurePrefix(@NonNull String string, @NonNull String prefix) {
+        Assert.hasText(string, "String must not be blank");
+        Assert.hasText(prefix, "Prefix must not be blank");
+
+        return prefix + StringUtils.remove(string, prefix);
+    }
+
+
+    /**
+     * 确保字符串包含后缀。
+     * @param string
+     * @param suffix
+     * @return
+     */
+    public static String ensureSuffix(@NonNull String string, @NonNull String suffix) {
+        Assert.hasText(string, "String must not be blank");
+        Assert.hasText(suffix, "Suffix must not be blank");
+
+        return StringUtils.removeEnd(string, suffix) + suffix;
+    }
+
+
+    /**
+     * 合成完整http url的部分url。
+     * @param partUrls
+     * @return
+     */
+    public static String compositeHttpUrl(@NonNull String ... partUrls) {
+        Assert.notEmpty(partUrls, "Partial url must not be blank");
+
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < partUrls.length; i++) {
+            String partUrl = partUrls[i];
+            if (StringUtils.isBlank(partUrl)) {
+                continue;
+            }
+            partUrl = StringUtils.removeStart(partUrl, URL_SEPARATOR);
+            partUrl = StringUtils.removeEnd(partUrl, URL_SEPARATOR);
+            if (i != 0) {
+                builder.append(URL_SEPARATOR);
+            }
+            builder.append(partUrl);
+        }
+        return builder.toString();
+    }
 
     /**
      * 使纯文本脱敏。

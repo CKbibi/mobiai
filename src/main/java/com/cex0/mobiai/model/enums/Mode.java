@@ -14,6 +14,7 @@ public enum Mode {
 
     PRODUCTION,
     DEVELOPMENT,
+    DEMO,
     TEST;
 
     @JsonValue
@@ -27,21 +28,20 @@ public enum Mode {
      * @param value
      * @return
      */
-    @Nullable
     @JsonCreator
     public static Mode valueFrom(@Nullable String value) {
-        if (StringUtils.isBlank(value) || "prod".equalsIgnoreCase(value)) {
-            return Mode.PRODUCTION;
+        Mode modeResult = null;
+        for (Mode mode : values()) {
+            if (mode.name().equalsIgnoreCase(value)) {
+                modeResult = mode;
+                break;
+            }
         }
 
-        if ("dev".equalsIgnoreCase(value)) {
-            return Mode.DEVELOPMENT;
+        if (modeResult == null) {
+            modeResult = PRODUCTION;
         }
 
-        if ("test".equalsIgnoreCase(value)) {
-            return Mode.TEST;
-        }
-
-        return null;
+        return modeResult;
     }
 }

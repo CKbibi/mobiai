@@ -1,6 +1,8 @@
 package com.cex0.mobiai.security.filter;
 
+import com.cex0.mobiai.cache.StringCacheStore;
 import com.cex0.mobiai.config.properties.MobiaiProperties;
+import com.cex0.mobiai.security.service.OneTimeTokenService;
 import com.cex0.mobiai.service.OptionService;
 
 import javax.servlet.FilterChain;
@@ -16,8 +18,11 @@ import java.io.IOException;
  */
 public class ContentFilter extends AbstractAuthenticationFilter{
 
-    protected ContentFilter(MobiaiProperties mobiaiProperties, OptionService optionService) {
-        super(mobiaiProperties, optionService);
+    public ContentFilter(MobiaiProperties mobiaiProperties,
+                            OptionService optionService,
+                            StringCacheStore cacheStore,
+                            OneTimeTokenService oneTimeTokenService) {
+        super(mobiaiProperties, optionService, cacheStore, oneTimeTokenService);
     }
 
     @Override

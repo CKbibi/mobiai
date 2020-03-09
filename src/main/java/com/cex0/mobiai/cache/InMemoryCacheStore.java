@@ -69,8 +69,8 @@ public class InMemoryCacheStore extends StringCacheStore{
 
         log.debug("Preparing to put key: [{}], value: [{}]", key, cacheWrapper);
 
+        lock.lock();
         try {
-            lock.lock();
             // 获取之前的值
             Optional<String> valueOptional = get(key);
 
@@ -101,6 +101,11 @@ public class InMemoryCacheStore extends StringCacheStore{
     public void preDestroy() {
         log.debug("Cancelling all timer tasks");
         timer.cancel();
+        clear();
+    }
+
+    private void clear() {
+        CACHE_CONTAINER.clear();
     }
 
 
@@ -110,6 +115,7 @@ public class InMemoryCacheStore extends StringCacheStore{
      * @date 2020-03-04
      */
     private class CacheExpiryCleaner extends TimerTask {
+
         @Override
         public void run() {
             CACHE_CONTAINER.keySet().forEach(key ->{

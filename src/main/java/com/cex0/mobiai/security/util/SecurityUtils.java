@@ -14,13 +14,27 @@ import org.springframework.util.Assert;
  */
 public class SecurityUtils {
 
+    /**
+     * 访问令牌缓存前缀。
+     */
+    private final static String TOKEN_ACCESS_CACHE_PREFIX = "mobiai.admin.access.token.";
+
+    /**
+     * 刷新令牌缓存前缀。
+     */
+    private final static String TOKEN_REFRESH_CACHE_PREFIX = "mobiai.admin.refresh.token.";
+
+    private final static String ACCESS_TOKEN_CACHE_PREFIX = "mobiai.admin.access_token.";
+
+    private final static String REFRESH_TOKEN_CACHE_PREFIX = "mobiai.admin.refresh_token.";
+
     private SecurityUtils() {}
 
     @NonNull
     public static String buildAccessTokenKey(@NonNull User user) {
         Assert.notNull(user, "User must not be null");
 
-        return AdminService.ACCESS_TOKEN_CACHE_PREFIX + user.getId();
+        return ACCESS_TOKEN_CACHE_PREFIX + user.getId();
     }
 
 
@@ -28,7 +42,7 @@ public class SecurityUtils {
     public static String buildRefreshTokenKey(@NonNull User user) {
         Assert.notNull(user, "User must not be null");
 
-        return AdminService.REFRESH_TOKEN_CACHE_PREFIX + user.getId();
+        return REFRESH_TOKEN_CACHE_PREFIX + user.getId();
     }
 
 
@@ -36,13 +50,13 @@ public class SecurityUtils {
     public static String buildTokenAccessKey(@NonNull String accessToken) {
         Assert.hasText(accessToken, "Access token must not be blank");
 
-        return AdminAuthenticationFilter.TOKEN_ACCESS_CACHE_PREFIX + accessToken;
+        return TOKEN_ACCESS_CACHE_PREFIX + accessToken;
     }
 
     @NonNull
     public static String buildTokenRefreshKey(@NonNull String refreshToken) {
         Assert.hasText(refreshToken, "Refresh token must not be blank");
 
-        return AdminAuthenticationFilter.TOKEN_REFRESH_CACHE_PREFIX + refreshToken;
+        return TOKEN_REFRESH_CACHE_PREFIX + refreshToken;
     }
 }

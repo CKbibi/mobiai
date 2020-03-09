@@ -23,6 +23,11 @@ public interface SecurityContext {
      */
     void setAuthentication(Authentication authentication);
 
+    /**
+     * 检查当前上下文是否已通过身份验证。
+     *
+     * @return 如果验证，则为true；否则为false
+     */
     default boolean isAuthenticated() {
         return getAuthentication() != null;
     }

@@ -1,6 +1,8 @@
 package com.cex0.mobiai.model.support;
 
 
+import org.springframework.http.HttpHeaders;
+
 import java.io.File;
 
 /**
@@ -14,6 +16,21 @@ public class MobiaiConst {
      * 用户的主目录。
      */
     public final static String USER_HOME = System.getProperties().getProperty("user.home");
+
+    /**
+     * Temporary directory.
+     */
+    public final static String TEMP_DIR = System.getProperties().getProperty("java.io.tmpdir");
+
+    /**
+     * MOBIAI backup prefix.
+     */
+    public final static String MOBIAI_BACKUP_PREFIX = "halo-backup-";
+
+    /**
+     * Static pages pack prefix.
+     */
+    public final static String STATIC_PAGE_PACK_PREFIX = "static-pages-";
 
     /**
      * 默认的主题的名称。
@@ -76,6 +93,11 @@ public class MobiaiConst {
      */
     public static final String YOUTUBE_VIDEO_REG_PATTERN = "\\[youtube:(\\w+)\\,(\\d+)\\,(\\d+)\\]";
     /**
+     * Github Api url release.
+     */
+    public final static String HALO_ADMIN_RELEASES_LATEST = "/releases/latest";
+
+    /**
      * user_session
      */
     public static String USER_SESSION_KEY = "user_session";
@@ -93,6 +115,32 @@ public class MobiaiConst {
     public final static String MOBIAI_ADMIN_RELATIVE_PATH = "templates/admin/";
 
     public final static String MOBIAI_ADMIN_RELATIVE_BACKUP_PATH = "templates/admin-backup/";
+
+    /**
+     * Content token header name.
+     */
+    public final static String API_ACCESS_KEY_HEADER_NAME = "API-" + HttpHeaders.AUTHORIZATION;
+    /**
+     * Admin token header name.
+     */
+    public final static String ADMIN_TOKEN_HEADER_NAME = "ADMIN-" + HttpHeaders.AUTHORIZATION;
+    /**
+     * Admin token param name.
+     */
+    public final static String ADMIN_TOKEN_QUERY_NAME = "admin_token";
+    /**
+     * Temporary token.
+     */
+    public final static String TEMP_TOKEN = "temp_token";
+    /**
+     * Content api token param name
+     */
+    public final static String API_ACCESS_KEY_QUERY_NAME = "api_access_key";
+
+    public final static String ONE_TIME_TOKEN_QUERY_NAME = "ott";
+
+    public final static String ONE_TIME_TOKEN_HEADER_NAME = "ott";
+
 
     static {
         // Set version

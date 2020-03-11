@@ -1,10 +1,9 @@
 package com.cex0.mobiai.controller.admin.api;
 
-import com.cex0.mobiai.model.dto.OptionDTO;
+import com.cex0.mobiai.model.dto.post.OptionDTO;
 import com.cex0.mobiai.model.params.OptionParam;
 import com.cex0.mobiai.service.OptionService;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 

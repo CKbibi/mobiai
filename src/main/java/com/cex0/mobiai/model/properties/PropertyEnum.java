@@ -105,6 +105,8 @@ public interface PropertyEnum extends ValueEnum<String> {
      * @return          转换后的枚举或者null
      */
     static <T extends Enum<T>> T convertToEnum(@NonNull String value, @NonNull Class<T> type) {
+        Assert.hasText(value, "Property value must not be blank");
+
         try {
             return Enum.valueOf(type, value.toUpperCase());
         }
@@ -140,18 +142,23 @@ public interface PropertyEnum extends ValueEnum<String> {
 //    static Map<String, PropertyEnum> getValuePropertyEnumMap() {
 //        // Get all properties
 //        List<Class<? extends PropertyEnum>> propertyEnumClasses = new LinkedList<>();
-//        propertyEnumClasses.add(AliYunProperties.class);
+//        propertyEnumClasses.add(AliOssProperties.class);
 //        propertyEnumClasses.add(AttachmentProperties.class);
 //        propertyEnumClasses.add(BlogProperties.class);
 //        propertyEnumClasses.add(CommentProperties.class);
 //        propertyEnumClasses.add(EmailProperties.class);
 //        propertyEnumClasses.add(OtherProperties.class);
 //        propertyEnumClasses.add(PostProperties.class);
+//        propertyEnumClasses.add(SheetProperties.class);
 //        propertyEnumClasses.add(PrimaryProperties.class);
-//        propertyEnumClasses.add(QnYunProperties.class);
+//        propertyEnumClasses.add(QiniuOssProperties.class);
 //        propertyEnumClasses.add(SeoProperties.class);
-//        propertyEnumClasses.add(UpYunProperties.class);
+//        propertyEnumClasses.add(UpOssProperties.class);
 //        propertyEnumClasses.add(ApiProperties.class);
+//        propertyEnumClasses.add(StaticDeployProperties.class);
+//        propertyEnumClasses.add(GitStaticDeployProperties.class);
+//        propertyEnumClasses.add(NetlifyStaticDeployProperties.class);
+//        propertyEnumClasses.add(PermalinkProperties.class);
 //
 //        Map<String, PropertyEnum> result = new HashMap<>();
 //
@@ -174,10 +181,29 @@ public interface PropertyEnum extends ValueEnum<String> {
      */
     Class<?> getType();
 
+
     /**
      * 默认值
      *
      * @return default value
      */
     String defaultValue();
+
+
+    /**
+     * 通过类型获取到默认值
+     *
+     * @param propertyType
+     * @param <T>
+     * @return
+     */
+    default <T> T defaultValue(Class<T> propertyType) {
+        // 获取默认值
+        String defaultValue = defaultValue();
+        if (defaultValue == null) {
+            return null;
+        }
+
+        return PropertyEnum.convertTo(defaultValue, propertyType);
+    }
 }

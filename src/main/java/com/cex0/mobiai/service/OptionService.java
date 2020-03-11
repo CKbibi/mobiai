@@ -1,12 +1,17 @@
 package com.cex0.mobiai.service;
 
-import com.cex0.mobiai.model.dto.OptionDTO;
+import com.cex0.mobiai.model.dto.post.OptionDTO;
+import com.cex0.mobiai.model.dto.post.OptionSimpleDTO;
 import com.cex0.mobiai.model.entity.Option;
+import com.cex0.mobiai.model.enums.PostPermalinkType;
 import com.cex0.mobiai.model.enums.ValueEnum;
 import com.cex0.mobiai.model.params.OptionParam;
+import com.cex0.mobiai.model.params.OptionQuery;
 import com.cex0.mobiai.model.properties.PropertyEnum;
 import com.cex0.mobiai.service.base.CrudService;
 import com.qiniu.common.Zone;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +34,8 @@ public interface OptionService extends CrudService<Option, Integer> {
 
     int DEFAULT_COMMENT_PAGE_SIZE = 10;
 
+    int DEFAULT_ARCHIVES_PAGE_SIZE = 10;
+
     int DEFAULT_RSS_PAGE_SIZE = 20;
 
     String OPTIONS_KEY = "options";
@@ -48,6 +55,21 @@ public interface OptionService extends CrudService<Option, Integer> {
      */
     @Transactional
     void save(@Nullable List<OptionParam> optionParams);
+
+    /**
+     * 保存单个操作
+     *
+     * @param optionParam
+     */
+    void save(@Nullable OptionParam optionParam);
+
+    /**
+     * 通过id修改option
+     *
+     * @param optionId
+     * @param optionParam
+     */
+    void update(@NonNull Integer optionId, @NonNull OptionParam optionParam);
 
     /**
      * 保存
@@ -91,6 +113,23 @@ public interface OptionService extends CrudService<Option, Integer> {
      */
     @NonNull
     List<OptionDTO> listDtos();
+
+    /**
+     * 分页输出DTO
+     * @param pageable
+     * @param optionQuery
+     * @return
+     */
+    Page<OptionSimpleDTO> pageDtosBy(@NonNull Pageable pageable, OptionQuery optionQuery);
+
+    /**
+     * 永久删除选项。
+     *
+     * @param id option id must not be null
+     * @return option detail deleted
+     */
+    @NonNull
+    Option removePermanently(@NonNull Integer id);
 
     /**
      * 获取选项by key
@@ -160,6 +199,18 @@ public interface OptionService extends CrudService<Option, Integer> {
      * @return property value
      */
     <T> T getByPropertyOrDefault(@NonNull PropertyEnum property, @NonNull Class<T> propertyType, T defaultValue);
+
+    /**
+     * Gets property value by blog property.
+     * 获取选项值by blog property.
+     *
+     * @param property     blog property must not be null
+     * @param propertyType property type must not be null
+     * @param <T>          property type
+     * @return property value
+     */
+    <T> T getByPropertyOrDefault(@NonNull PropertyEnum property, @NonNull Class<T> propertyType);
+
 
     /**
      * Gets property value by blog property.
@@ -260,6 +311,13 @@ public interface OptionService extends CrudService<Option, Integer> {
     int getPostPageSize();
 
     /**
+     * 获取存档页大小。
+     *
+     * @return page size
+     */
+    int getArchivesPageSize();
+
+    /**
      * Gets comment page size.
      * 获取评论页数
      *
@@ -309,9 +367,111 @@ public interface OptionService extends CrudService<Option, Integer> {
     String getBlogTitle();
 
     /**
+     * 获取全局搜索引擎优化关键字。
+     *
+     * @return keywords
+     */
+    String getSeoKeywords();
+
+    /**
+     * 获取全局搜索引擎优化描述。
+     *
+     * @return description
+     */
+    String getSeoDescription();
+
+    /**
      * Gets blog birthday.
      *
      * @return birthday timestamp
      */
     long getBirthday();
+
+    /**
+     * 获取post permalink类型。
+     *
+     * @return PostPermalinkType
+     */
+    PostPermalinkType getPostPermalinkType();
+
+    /**
+     * 获取工作表自定义前缀。
+     *
+     * @return sheet prefix.
+     */
+    String getSheetPrefix();
+
+    /**
+     * 获取链接页自定义前缀。
+     *
+     * @return links page prefix.
+     */
+    String getLinksPrefix();
+
+    /**
+     * 获取照片页自定义前缀。
+     *
+     * @return photos page prefix.
+     */
+    String getPhotosPrefix();
+
+    /**
+     * 获取日志页自定义前缀。
+     *
+     * @return journals page prefix.
+     */
+    String getJournalsPrefix();
+
+    /**
+     * 获取存档自定义前缀。
+     *
+     * @return archives prefix.
+     */
+    String getArchivesPrefix();
+
+    /**
+     * 获取类别自定义前缀。
+     *
+     * @return categories prefix.
+     */
+    String getCategoriesPrefix();
+
+    /**
+     * 获取标记自定义前缀。
+     *
+     * @return tags prefix.
+     */
+    String getTagsPrefix();
+
+    /**
+     * 获取自定义路径后缀。
+     *
+     * @return path suffix.
+     */
+    String getPathSuffix();
+
+    /**
+     * 已启用绝对路径。
+     *
+     * @return true or false.
+     */
+    Boolean isEnabledAbsolutePath();
+
+    /**
+     * 批量替换选项url。
+     *
+     * @param oldUrl old blog url.
+     * @param newUrl new blog url.
+     * @return replaced options.
+     */
+    List<OptionDTO> replaceUrl(@NonNull String oldUrl, @NonNull String newUrl);
+
+    /**
+     * 转换为选项输出dto。
+     *
+     * @param option option must not be null
+     * @return an option output dto
+     */
+    @NonNull
+    OptionSimpleDTO convertToDto(@NonNull Option option);
 }

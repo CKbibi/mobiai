@@ -12,19 +12,26 @@ import lombok.ToString;
 @ToString
 public class StatisticDTO {
 
-    private long postCount;
+    private Long postCount;
 
-    private long commentCount;
+    private Long commentCount;
 
-    private long attachmentCount;
+    private Long categoryCount;
 
-    private long birthday;
+    @Deprecated
+    private Long attachmentCount;
 
-    private long establishDays;
+    private Long tagCount;
 
-    private long linkCount;
+    private Long journalCount;
 
-    private long visitCount;
+    private Long birthday;
 
-    private long likeCount;
+    private Long establishDays;
+
+    private Long linkCount;
+
+    private Long visitCount;
+
+    private Long likeCount;
 }

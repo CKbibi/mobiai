@@ -1,6 +1,6 @@
 package com.cex0.mobiai.service.impl;
 
-import com.cex0.mobiai.model.dto.OptionDTO;
+import com.cex0.mobiai.model.dto.post.OptionDTO;
 import com.cex0.mobiai.model.entity.Option;
 import com.cex0.mobiai.model.enums.ValueEnum;
 import com.cex0.mobiai.model.params.OptionParam;

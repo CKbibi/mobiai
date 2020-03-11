@@ -139,39 +139,39 @@ public interface PropertyEnum extends ValueEnum<String> {
     }
 
 
-//    static Map<String, PropertyEnum> getValuePropertyEnumMap() {
-//        // Get all properties
-//        List<Class<? extends PropertyEnum>> propertyEnumClasses = new LinkedList<>();
+    static Map<String, PropertyEnum> getValuePropertyEnumMap() {
+        // Get all properties
+        List<Class<? extends PropertyEnum>> propertyEnumClasses = new LinkedList<>();
 //        propertyEnumClasses.add(AliOssProperties.class);
 //        propertyEnumClasses.add(AttachmentProperties.class);
 //        propertyEnumClasses.add(BlogProperties.class);
-//        propertyEnumClasses.add(CommentProperties.class);
-//        propertyEnumClasses.add(EmailProperties.class);
+        propertyEnumClasses.add(CommentProperties.class);
+        propertyEnumClasses.add(EmailProperties.class);
 //        propertyEnumClasses.add(OtherProperties.class);
 //        propertyEnumClasses.add(PostProperties.class);
 //        propertyEnumClasses.add(SheetProperties.class);
-//        propertyEnumClasses.add(PrimaryProperties.class);
+        propertyEnumClasses.add(PrimaryProperties.class);
 //        propertyEnumClasses.add(QiniuOssProperties.class);
 //        propertyEnumClasses.add(SeoProperties.class);
 //        propertyEnumClasses.add(UpOssProperties.class);
-//        propertyEnumClasses.add(ApiProperties.class);
+        propertyEnumClasses.add(ApiProperties.class);
 //        propertyEnumClasses.add(StaticDeployProperties.class);
 //        propertyEnumClasses.add(GitStaticDeployProperties.class);
 //        propertyEnumClasses.add(NetlifyStaticDeployProperties.class);
 //        propertyEnumClasses.add(PermalinkProperties.class);
-//
-//        Map<String, PropertyEnum> result = new HashMap<>();
-//
-//        propertyEnumClasses.forEach(propertyEnumClass -> {
-//            PropertyEnum[] propertyEnums = propertyEnumClass.getEnumConstants();
-//
-//            for (PropertyEnum propertyEnum : propertyEnums) {
-//                result.put(propertyEnum.getValue(), propertyEnum);
-//            }
-//        });
-//
-//        return result;
-//    }
+
+        Map<String, PropertyEnum> result = new HashMap<>();
+
+        propertyEnumClasses.forEach(propertyEnumClass -> {
+            PropertyEnum[] propertyEnums = propertyEnumClass.getEnumConstants();
+
+            for (PropertyEnum propertyEnum : propertyEnums) {
+                result.put(propertyEnum.getValue(), propertyEnum);
+            }
+        });
+
+        return result;
+    }
 
 
     /**

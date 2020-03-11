@@ -28,11 +28,13 @@ public class OptionController {
     }
 
     @GetMapping
+    @ApiOperation("Lists options")
     public List<OptionDTO> listAll() {
         return optionService.listDtos();
     }
 
     @PostMapping("saving")
+    @ApiOperation("Saves options")
     public void saveOptions(@Valid @RequestBody List<OptionParam> optionParams) {
         optionService.save(optionParams);
     }

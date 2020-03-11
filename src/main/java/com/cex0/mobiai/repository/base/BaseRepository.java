@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * 基本存储库接口包含一些常用方法。
+ *
  * @param <DOMAIN>  实体类型
  * @param <ID>      id类型
  * @author Cex0

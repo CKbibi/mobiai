@@ -1,6 +1,8 @@
 package com.cex0.mobiai.controller.admin.api;
 
+import com.cex0.mobiai.cache.lock.CacheLock;
 import com.cex0.mobiai.model.params.LoginParam;
+import com.cex0.mobiai.model.params.ResetPasswordParam;
 import com.cex0.mobiai.model.properties.PrimaryProperties;
 import com.cex0.mobiai.security.token.AuthToken;
 import com.cex0.mobiai.service.AdminService;
@@ -48,11 +50,38 @@ public class AdminController {
      */
     @PostMapping(value = "login")
     @ApiOperation("Login")
+    @CacheLock(autoDelete = false)
     public AuthToken auth(@RequestBody @Valid LoginParam loginParam) {
         return adminService.authenticate(loginParam);
     }
 
 
+    /**
+     * 退出，清除token
+     */
+    @PostMapping("logout")
+    @ApiOperation("Logs out (Clear Session)")
+    @CacheLock(autoDelete = false)
+    public void logout() {
+        adminService.clearToken();
+    }
 
 
+    /**
+     * 发送验证码找回密码
+     *
+     * @param param
+     */
+    @PostMapping("password/code")
+    @ApiOperation("Sends reset password verify code")
+    public void sendResetCode(@RequestBody @Valid ResetPasswordParam param) {
+        adminService.sendResetPasswordCode(param);
+    }
+
+
+    @PostMapping("password/reset")
+    @ApiOperation("Resets password by verify code")
+    public void resetPassword(@RequestBody @Valid ResetPasswordParam param) {
+        adminService.resetPasswordByCode(param);
+    }
 }

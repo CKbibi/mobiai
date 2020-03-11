@@ -29,6 +29,7 @@
         <qiniusdk.version>7.2.18</qiniusdk.version>
         <levelDB.version>0.12</levelDB.version>
         <httpClient.version>4.5.7</httpClient.version>
+        <jakartaMail.version>1.6.4</jakartaMail.version>
     </properties>
 
     <dependencies>
@@ -57,6 +58,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
             <version>${spring.version}</version>
         </dependency>
 
@@ -124,6 +130,11 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>${httpClient.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <version>${jakartaMail.version}</version>
         </dependency>
 
 

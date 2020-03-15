@@ -23,10 +23,15 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
+import javax.persistence.Id;
+import javax.persistence.criteria.Predicate;
 import java.util.*;
 
 /**
@@ -63,24 +68,29 @@ public class OptionServiceImpl extends AbstractCrudService<Option, Integer> impl
     }
 
     @Override
+    @Transactional
     public void save(Map<String, Object> optionMap) {
         if (CollectionUtils.isEmpty(optionMap)) {
             return;
         }
 
+        // 从数据库获取所有option 转换成Map<key, Option>去重复的key
         Map<String, Option> optionKeyMap = ServiceUtils.convertToMap(listAll(), Option::getKey);
 
         List<Option> optionsToCreate = new LinkedList<>();
         List<Option> optionsToUpdate = new LinkedList<>();
 
+        // 遍历需要保存的map，这个key去数据库中的map取value。
         optionMap.forEach((key, value) -> {
             Option oldOption = optionKeyMap.get(key);
+            // 如果获取到的value为空或者两个value不相同的话,new一个新的OptionParam对象插入key和value 的值
             if (oldOption == null || !StringUtils.equals(oldOption.getValue(), value.toString())) {
                 OptionParam optionParam = new OptionParam();
                 optionParam.setKey(key);
                 optionParam.setValue(value.toString());
                 ValidationUtils.validate(optionParam);
 
+                // 判断需要保存的key是否在数据库中有数据，没有就添加到需要新增的List中，存在就添加到需要修改的List中
                 if (oldOption == null) {
                     // Create it
                     optionsToCreate.add(optionParam.convertTo());
@@ -116,12 +126,17 @@ public class OptionServiceImpl extends AbstractCrudService<Option, Integer> impl
 
     @Override
     public void save(OptionParam optionParam) {
-
+        Option option = optionParam.convertTo();
+        create(option);
+        publishOptionUpdatedEvent();
     }
 
     @Override
     public void update(Integer optionId, OptionParam optionParam) {
-
+        Option byId = getById(optionId);
+        optionParam.update(byId);
+        update(byId);
+        publishOptionUpdatedEvent();
     }
 
     @Override
@@ -151,7 +166,7 @@ public class OptionServiceImpl extends AbstractCrudService<Option, Integer> impl
                     return option.getValue();
                 }
 
-                return PropertyEnum.converTo(option.getValue(), propertyEnum);
+                return PropertyEnum.convertTo(option.getValue(), propertyEnum);
             });
 
             Map<String, Object> result = new HashMap<>(userDefinedOptionMap);
@@ -167,7 +182,7 @@ public class OptionServiceImpl extends AbstractCrudService<Option, Integer> impl
                             return;
                         }
 
-                        result.put(key, PropertyEnum.converTo(propertyEnum.defaultValue(), propertyEnum));
+                        result.put(key, PropertyEnum.convertTo(propertyEnum.defaultValue(), propertyEnum));
                     });
 
             // 添加到缓存
@@ -204,12 +219,18 @@ public class OptionServiceImpl extends AbstractCrudService<Option, Integer> impl
 
     @Override
     public Page<OptionSimpleDTO> pageDtosBy(Pageable pageable, OptionQuery optionQuery) {
-        return null;
+        Assert.notNull(pageable, "Page info must not be null");
+
+        Page<Option> optionPage = optionRepository.findAll(buildSpecByQuery(optionQuery), pageable);
+
+        return optionPage.map(this::convertToDto);
     }
 
     @Override
     public Option removePermanently(Integer id) {
-        return null;
+        Option option = removeById(id);
+        publishOptionUpdatedEvent();
+        return option;
     }
 
     @Override
@@ -224,7 +245,9 @@ public class OptionServiceImpl extends AbstractCrudService<Option, Integer> impl
 
     @Override
     public Optional<Object> getByKey(String key) {
-        return Optional.empty();
+        Assert.hasText(key, "Option key must not bu blank");
+
+        return Optional.ofNullable(listOptions().get(key));
     }
 
     @Override
@@ -239,12 +262,14 @@ public class OptionServiceImpl extends AbstractCrudService<Option, Integer> impl
 
     @Override
     public Optional<Object> getByProperty(PropertyEnum property) {
-        return Optional.empty();
+        Assert.notNull(property, "Blog property must not be null");
+
+        return getByKey(property.getValue());
     }
 
     @Override
     public <T> T getByPropertyOrDefault(PropertyEnum property, Class<T> propertyType, T defaultValue) {
-        return null;
+        return getByProperty(property, propertyType).orElse(defaultValue);
     }
 
     @Override
@@ -254,7 +279,7 @@ public class OptionServiceImpl extends AbstractCrudService<Option, Integer> impl
 
     @Override
     public <T> Optional<T> getByProperty(PropertyEnum property, Class<T> propertyType) {
-        return Optional.empty();
+        return getByProperty(property).map(propertyValue -> PropertyEnum.convertTo(propertyValue.toString(), propertyType));
     }
 
     @Override
@@ -399,7 +424,9 @@ public class OptionServiceImpl extends AbstractCrudService<Option, Integer> impl
 
     @Override
     public OptionSimpleDTO convertToDto(Option option) {
-        return null;
+        Assert.notNull(option, "Option must not be null");
+
+        return new OptionSimpleDTO().convertFrom(option);
     }
 
     private void cleanCache() {
@@ -410,5 +437,31 @@ public class OptionServiceImpl extends AbstractCrudService<Option, Integer> impl
         flush();
         cleanCache();
         eventPublisher.publishEvent(new OptionUpdatedEvent(this));
+    }
+
+    @NonNull
+    private Specification<Option> buildSpecByQuery(@NonNull OptionQuery optionQuery) {
+        Assert.notNull(optionQuery, "Option query must not be null");
+
+        return (Specification<Option>) (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new LinkedList<>();
+
+            if (optionQuery.getType() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("type"), optionQuery.getType()));
+            }
+
+            if (optionQuery.getKeyword() != null) {
+
+                String likeCondition = String.format("%%%s%%", StringUtils.strip(optionQuery.getKeyword()));
+
+                Predicate keyLike = criteriaBuilder.like(root.get("key"), likeCondition);
+
+                Predicate valueLike = criteriaBuilder.like(root.get("value"), likeCondition);
+
+                predicates.add(criteriaBuilder.or(keyLike, valueLike));
+            }
+
+            return query.where(predicates.toArray(new Predicate[0])).getRestriction();
+        };
     }
 }

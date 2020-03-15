@@ -1,0 +1,42 @@
+server:
+  port: 8090
+  use-forward-headers: true
+  compression:
+    enabled: false
+    mime-types: application/javascript,text/css,application/json,application/xml,text/html,text/xml,text/plain
+
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+  devtools:
+    add-properties: false
+  output:
+    ansi:
+      enabled: always
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.106.211.127:3306/mobiaidb?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: Dd112211
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: false
+
+  servlet:
+    multipart:
+      max-file-size: 10240MB
+      max-request-size: 10240MB
+
+  mvc:
+    favicon:
+      enabled: false
+
+logging:
+  level:
+    com.cex0.mobiai: debug
+  file:
+    path: ${user.home}/.mobiai/logs

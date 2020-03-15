@@ -1,6 +1,7 @@
 package com.cex0.mobiai.controller.admin.api;
 
 import com.cex0.mobiai.cache.lock.CacheLock;
+import com.cex0.mobiai.model.annotation.DisableOnCondition;
 import com.cex0.mobiai.model.params.LoginParam;
 import com.cex0.mobiai.model.params.ResetPasswordParam;
 import com.cex0.mobiai.model.properties.PrimaryProperties;
@@ -79,9 +80,25 @@ public class AdminController {
     }
 
 
+    /**
+     * 验证验证码重制密码
+     *
+     * @param param
+     */
     @PostMapping("password/reset")
+    @DisableOnCondition
     @ApiOperation("Resets password by verify code")
     public void resetPassword(@RequestBody @Valid ResetPasswordParam param) {
         adminService.resetPasswordByCode(param);
     }
+
+
+    @PostMapping("refresh/{refreshToken}")
+    @ApiOperation("Refreshes token")
+    @CacheLock(autoDelete = false)
+    public AuthToken refresh(@PathVariable("refreshToken") String refreshToken) {
+        return adminService.refreshToken(refreshToken);
+    }
+
+
 }

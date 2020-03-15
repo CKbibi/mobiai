@@ -24,6 +24,7 @@ import com.cex0.mobiai.service.OptionService;
 import com.cex0.mobiai.service.UserService;
 import com.cex0.mobiai.util.MobiaiUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.lang.NonNull;
@@ -169,7 +170,30 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void resetPasswordByCode(ResetPasswordParam param) {
+        if (StringUtils.isEmpty(param.getCode())) {
+            throw new ServiceException("验证码不能为空");
+        }
 
+        if (StringUtils.isEmpty(param.getPassword())) {
+            throw new ServiceException("密码不能为空");
+        }
+
+        if (!userService.verifyUser(param.getUsername(), param.getEmail())) {
+            throw new ServiceException("用户名或者邮箱验证错误");
+        }
+
+        String code = cacheStore.getAny("code", String.class).orElseThrow(() -> new ServiceException("未获取过验证码"));
+        if (!code.equals(param.getCode())) {
+            throw new ServiceException("验证码不正确");
+        }
+
+        User user = userService.getCurrentUser().orElseThrow(() -> new ServiceException("未查询到博主信息"));
+
+        userService.setPassword(user, param.getPassword());
+
+        userService.update(user);
+
+        cacheStore.delete("code");
     }
 
     @Override
@@ -184,7 +208,23 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public AuthToken refreshToken(String refreshToken) {
-        return null;
+        Assert.hasText(refreshToken, "Refresh Token must not be blank");
+
+        Integer userId = cacheStore.getAny(SecurityUtils.buildTokenRefreshKey(refreshToken), Integer.class)
+                .orElseThrow(() -> new BadRequestException("登陆状态已失效，请重新登陆").setErrorData(refreshToken));
+
+        // 获取uesr对象
+        User user = userService.getById(userId);
+
+        // 删除所有用户所有token
+        cacheStore.getAny(SecurityUtils.buildAccessTokenKey(user), String.class)
+                .ifPresent(accessToken -> cacheStore.delete(SecurityUtils.buildTokenAccessKey(accessToken)));
+        cacheStore.delete(SecurityUtils.buildTokenRefreshKey(refreshToken));
+        cacheStore.delete(SecurityUtils.buildAccessTokenKey(user));
+        cacheStore.delete(SecurityUtils.buildRefreshTokenKey(user));
+
+        // 重新设置Token
+        return buildAuthToken(user);
     }
 
     @Override

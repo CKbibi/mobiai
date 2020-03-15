@@ -38,31 +38,31 @@ public interface PropertyEnum extends ValueEnum<String> {
         }
 
         if (type.isAssignableFrom(Integer.class)) {
-            return (T) value;
+            return (T) Integer.valueOf(value);
         }
 
         if (type.isAssignableFrom(Long.class)) {
-            return (T) value;
+            return (T) Long.valueOf(value);
         }
 
         if (type.isAssignableFrom(Boolean.class)) {
-            return (T) value;
+            return (T) Boolean.valueOf(value);
         }
 
         if (type.isAssignableFrom(Short.class)) {
-            return (T) value;
+            return (T) Short.valueOf(value);
         }
 
         if (type.isAssignableFrom(Byte.class)) {
-            return (T) value;
+            return (T) Byte.valueOf(value);
         }
 
         if (type.isAssignableFrom(Double.class)) {
-            return (T) value;
+            return (T) Double.valueOf(value);
         }
 
         if (type.isAssignableFrom(Float.class)) {
-            return (T) value;
+            return (T) Float.valueOf(value);
         }
 
         throw new UnsupportedOperationException("Unsupported convention for blog property type:" + type.getName() + "provided");
@@ -76,7 +76,7 @@ public interface PropertyEnum extends ValueEnum<String> {
      * @return
      */
     @SuppressWarnings("unchecked")
-    static Object converTo(@Nullable String value, @NonNull PropertyEnum propertyEnum) {
+    static Object convertTo(@Nullable String value, @NonNull PropertyEnum propertyEnum) {
         Assert.notNull(propertyEnum, "Property enum must not be null");
 
         if (StringUtils.isBlank(value)) {

@@ -23,7 +23,7 @@
         <hutool.version>5.1.0</hutool.version>
         <aspectjweaver.version>1.9.4</aspectjweaver.version>
         <transmittable.version>2.10.2</transmittable.version>
-        <mysql.version>8.0.15</mysql.version>
+        <mysql.version>8.0.16</mysql.version>
         <jgit.version>5.3.0.201903130848-r</jgit.version>
         <swagger.version>2.9.2</swagger.version>
         <qiniusdk.version>7.2.18</qiniusdk.version>

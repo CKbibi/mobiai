@@ -28,7 +28,7 @@
         <swagger.version>2.9.2</swagger.version>
         <qiniusdk.version>7.2.18</qiniusdk.version>
         <levelDB.version>0.12</levelDB.version>
-        <httpClient.version>4.5.7</httpClient.version>
+        <httpClient.version>4.5.13</httpClient.version>
         <jakartaMail.version>1.6.4</jakartaMail.version>
     </properties>
 
